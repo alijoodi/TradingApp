@@ -1,13 +1,13 @@
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TradingProject.API.Controller;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : APIV1ControllerBase
     {
         private readonly DataContext _context;
 
@@ -18,13 +18,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        // [AllowAnonymous]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
             var users = await _context.Users.AsNoTracking().ToListAsync();
             return users;
         }
 
+        // [AllowAnonymous]
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<AppUser?>> GetUser(int id)
         {
             var user = await _context.Users.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();

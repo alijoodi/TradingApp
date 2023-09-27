@@ -9,20 +9,19 @@ namespace API.Controllers
 {
     public class UsersController : APIV1ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-
-        public UsersController(DataContext context)
+        public UsersController(IUnitOfWork unitOfWork)
         {
-            this._context = context;
+            this._unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         // [AllowAnonymous]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        // [Authorize]
+        public ActionResult<IEnumerable<AppUser>> GetUsers()
         {
-            var users = await _context.Users.AsNoTracking().ToListAsync();
+            var users = _unitOfWork.userRepository.Find(x => x.Id > 0).ToList();
             return users;
         }
 
@@ -31,7 +30,7 @@ namespace API.Controllers
         [Authorize]
         public async Task<ActionResult<AppUser?>> GetUser(int id)
         {
-            var user = await _context.Users.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var user = await _unitOfWork.userRepository.SingleOrDefaultAsync(x => x.Id == id);
             return user;
         }
     }

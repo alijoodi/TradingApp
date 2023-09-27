@@ -1,6 +1,9 @@
-<h1>{{title}}</h1>
-<ul>
-  <li *ngFor="let user of users">
-    {{user.userName}}
-  </li>
-</ul>sdw
+<app-nav></app-nav>
+<app-login></app-login>
+<div class="container" style="margin: 100px;">
+  <ul>
+    <li *ngFor="let user of users">
+      {{ user.userName }}
+    </li>
+  </ul>
+</div>

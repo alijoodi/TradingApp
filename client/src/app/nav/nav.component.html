@@ -19,12 +19,12 @@
             >Messages</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/errors" routerLinkActive="active"
-            >Errors</a
-          >
-        </li>
       </ng-container>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/errors" routerLinkActive="active"
+          >Errors</a
+        >
+      </li>
       <li class="nav-item" *ngIf="!(currentUser$ | async)">
         <a class="nav-link" routerLink="/register" routerLinkActive="active"
           >Register</a
@@ -40,13 +40,20 @@
         Logout
       </button>
     </div>
-    <div class="dropdown" *ngIf="currentUser$ | async as user" ng-dropdown>
-      <a class="btn btn-secondary" ng-dropdownToggle>
+
+    <div class="dropdown" *ngIf="currentUser$ | async as user">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
         Welcome {{ user.username }}
-      </a>
-      <div class="dropdown-menu" ng-dropdownMenu>
-        <a [routerLink]="'member/edit'" class="dropdown-item">Edit Profile</a>
-        <div class="dropdown-divider"></div>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" [routerLink]="'member/edit'">Edit Profile</a>
         <a class="dropdown-item" (click)="logout()">Logout</a>
       </div>
     </div>

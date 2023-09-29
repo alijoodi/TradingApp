@@ -1,0 +1,25 @@
+<ng-container>
+  <button (click)="getSecret()" class="btn btn-outline-primary m-3">
+    getSecret
+  </button>
+  <button (click)="getNotFound()" class="btn btn-outline-primary m-3">
+    getNotFound
+  </button>
+  <button (click)="getServerError()" class="btn btn-outline-primary m-3">
+    getServerError
+  </button>
+  <button (click)="getBadRequest()" class="btn btn-outline-primary m-3">
+    getBadRequest
+  </button>
+  <button (click)="getBadRequest()" class="btn btn-outline-primary m-3">
+    getBadRequest
+  </button>
+  <button (click)="getValidationError()" class="btn btn-outline-primary m-3">
+    getValidationError
+  </button>
+  <div class="row mt-5" *ngIf="validationErrors.length > 0">
+    <ul class="text-danger">
+      <li *ngFor="let error of validationErrors">error</li>
+    </ul>
+  </div>
+</ng-container>

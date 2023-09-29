@@ -7,46 +7,53 @@ import { User } from '../_models/user';
   providedIn: 'root',
 })
 export class AccountService {
+
+  // Creating a private subject to hold the current user
   private currentUserSource = new ReplaySubject<User>(1);
+
+  // Exposing an observable to subscribe to changes in the current user
   currentUser$ = this.currentUserSource.asObservable();
-  baseUrl = 'https://localhost:5001/api/';
-  apiVersion = 'v1/';
+
+
+  // Controller name for account-related services
   accountServiceControllerName = 'Account/';
-  serviceUrl =
-    this.baseUrl + this.apiVersion + this.accountServiceControllerName;
 
   constructor(private http: HttpClient) {}
 
+  // Method to log in a user
   login(model: any) {
-    return this.http.post<User>(this.serviceUrl + 'Login', model).pipe(
+    return this.http.post<User>(this.accountServiceControllerName + 'Login', model).pipe(
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          localStorage.setItem('user', JSON.stringify(user));  // Store user details in local storage
+          this.currentUserSource.next(user);  // Emit the new user value to all subscribers
         }
       })
     );
   }
 
+  // Method to register a new user
   register(model:any) {
-    return this.http.post<User>(this.serviceUrl + "Register",model).pipe(
+    return this.http.post<User>(this.accountServiceControllerName + "Register",model).pipe(
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          localStorage.setItem('user', JSON.stringify(user));  // Store user details in local storage
+          this.currentUserSource.next(user);  // Emit the new user value to all subscribers
         }
       })
     )
   }
 
+  // Method to set the current user manually (used in certain cases, e.g., after page refresh)
   setCurrentUser(user: User) {
-    this.currentUserSource.next(user);
+    this.currentUserSource.next(user);  // Emit the new user value to all subscribers
   }
 
+  // Method to logout the current user
   logout() {
-    localStorage.removeItem('user');
-    this.currentUserSource.next(null!);
+    localStorage.removeItem('user');  // Remove user details from local storage
+    this.currentUserSource.next(null!);  // Emit null value to all subscribers to indicate logout
   }
 }

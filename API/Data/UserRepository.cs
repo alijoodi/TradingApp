@@ -11,6 +11,11 @@ namespace API.Data
         {
         }
 
+        public async Task<AppUser?> GetUserByUserNameAsync(string userName)
+        {
+            return await _context.Users.SingleOrDefaultAsync(user => user.UserName == userName.ToLower());
+        }
+
         public async Task<bool> UserExists(string userName)
         {
             // Ensure that the `userName` parameter is not null or empty.

@@ -29,21 +29,42 @@ namespace API.Services
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
             };
-        
+
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
-        
+
             var expirationDate = DateTime.UtcNow.AddDays(7); // Set the expiration to `DateTime.UtcNow.AddDays(expiresInDays)`
-        
+
             var tokenOptions = new JwtSecurityToken(
                 claims: claims,
                 expires: expirationDate,
                 signingCredentials: creds
             );
-        
+
             var tokenHandler = new JwtSecurityTokenHandler();
-        
+
             return tokenHandler.WriteToken(tokenOptions);
         }
-        
+
+        public string CreateToken(TradingUser user)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.NameId, user.Username),
+            };
+
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+
+            var expirationDate = DateTime.UtcNow.AddDays(7); // Set the expiration to `DateTime.UtcNow.AddDays(expiresInDays)`
+
+            var tokenOptions = new JwtSecurityToken(
+                claims: claims,
+                expires: expirationDate,
+                signingCredentials: creds
+            );
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            return tokenHandler.WriteToken(tokenOptions);
+        }
     }
 }

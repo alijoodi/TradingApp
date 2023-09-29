@@ -6,13 +6,13 @@ namespace API.Data
     public interface IGenericRepository<T> where T : class
     {
         // Retrieves an entity by its ID synchronously.
-        T? GetById(int id);
+        Task<T?> GetById(int id);
 
         // Retrieves an entity by its ID asynchronously.
         Task<T?> GetByIdAsync(int id);
 
         // Retrieves all entities of type T.
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
 
         // Retrieves entities that match the specified expression.
         IEnumerable<T> Find(Expression<Func<T, bool>> expression);

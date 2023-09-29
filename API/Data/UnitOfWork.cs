@@ -7,6 +7,7 @@ namespace API.Data
 
         // Gets the repository for accessing AppUser.
         public IUserRepository userRepository { get; private set; }
+        public ITradingUserRepository tradingUserRepository { get; private set; }
 
         // Constructor that injects the AppDbContext dependency and initializes the AppUser repository.
 
@@ -14,6 +15,7 @@ namespace API.Data
         {
             _context = context;
             userRepository = new UserRepository(_context);
+            tradingUserRepository = new TradingUserRepository(_context);
         }
 
         // Saves changes made in the database context and returns the number of affected rows.

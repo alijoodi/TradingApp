@@ -35,10 +35,10 @@ namespace API.Data
 
         // Retrieves all entities of type T from the database.
 
-        public IEnumerable<T> GetAll() => _context.Set<T>().ToList();
+        public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
 
         // Retrieves an entity of type T by its id.
-        public T? GetById(int id) => _context.Set<T>().Find(id);
+        public async Task<T?> GetById(int id) => await _context.Set<T>().FindAsync(id);
 
         // Asynchronously retrieves an entity of type T by its id.
         public async Task<T?> GetByIdAsync(int id) => await _context.Set<T>().FindAsync(id);

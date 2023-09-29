@@ -7,5 +7,6 @@ namespace API.Data
     {
         // Declares a method called UserExists that takes a string argument called userName and returns a Task<bool>.
         Task<bool> UserExists(string userName);
+        Task<AppUser?> GetUserByUserNameAsync(string userName);
     }
 }

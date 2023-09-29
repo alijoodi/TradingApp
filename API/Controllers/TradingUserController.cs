@@ -1,55 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using API.Data;
-using API.DTOs;
+using API.DTOs.TradingUserDtos;
 using API.Entities;
 using API.Interfaces;
-using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TradingProject.API.Controller;
 
 namespace API.Controllers
 {
-    public class AccountController : APIV1ControllerBase
+    public class TradingUserController : APIV1ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IUnitOfWork unitOfWork ,ITokenService tokenService)
+        public TradingUserController(IUnitOfWork unitOfWork, ITokenService tokenService, IMapper mapper)
         {
-            _tokenService = tokenService;
-            _unitOfWork = unitOfWork;
+            this._tokenService = tokenService;
+            this._mapper = mapper;
+            this._unitOfWork = unitOfWork;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTradingUsers()
+        {
+            return Ok(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTradingUserById(int id)
+        {
+            return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByIdAsync(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
+        public async Task<IActionResult> Register(RegisterTradingUserDto registerDto)
         {
-            if (await _unitOfWork.userRepository.UserExists(registerDto.UserName)) return BadRequest("UserName is taken");
+            if (await _unitOfWork.tradingUserRepository.UserExists(registerDto.Username)) return BadRequest("UserName is taken");
             using var sha512Encryptor = new HMACSHA512();
 
-            var user = new AppUser
+            var user = new TradingUser
             {
-                UserName = registerDto.UserName.ToLower(),
+                Username = registerDto.Username.ToLower(),
+                Name = registerDto.Name,
+                Family = registerDto.Family,
+                MobileNumber = registerDto.MobileNumber,
+                Email = registerDto.Email,
+                IsActive = true,
                 Password = sha512Encryptor.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = sha512Encryptor.Key
             };
 
-            await _unitOfWork.userRepository.AddAsync(user);
+            await _unitOfWork.tradingUserRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync();
-            return Ok(new UserDto{
-                Username=user.UserName,
-                Token=_tokenService.CreateToken(user)
-            }); 
+            return Ok(new ReturnedLoginTradingUserDto
+            {
+                Username = user.Username,
+                Token = _tokenService.CreateToken(user)
+            });
             // Assuming you want to return a successful response with the created user.
         }
 
-        [HttpPost] // Attribute specifying that this method handles HTTP POST requests
-        public async Task<IActionResult> Login(LoginDto loginDto)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginTradingUserDto loginDto)
         {
             var user = await _unitOfWork.userRepository.SingleOrDefaultAsync(user => user.UserName == loginDto.Username);
             // Retrieves a single user from the repository based on the provided username
             // The method is awaited since it is an asynchronous operation
-            
+
             if (user == null) Unauthorized("User not exist");
             // This condition checks if the `user` variable is null.
             // If it is, then it means that the user does not exist.
@@ -76,7 +100,7 @@ namespace API.Controllers
                 // Unauthorized result with a message indicating an invalid password.
             }
 
-            return Ok(new UserDto
+            return Ok(new ReturnedLoginTradingUserDto
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user)
@@ -84,7 +108,6 @@ namespace API.Controllers
             // If the password verification succeeds, return an Ok result with the
             // authenticated user object.
         }
-    
-    }
 
+    }
 }

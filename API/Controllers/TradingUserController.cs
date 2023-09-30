@@ -30,7 +30,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTradingUsers()
         {
-            return Ok(_mapper.Map<TradingUserDto>(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync()));
+            return Ok(_mapper.Map<IList<TradingUserDto>>(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync()));
         }
 
         [HttpGet("{id}")]

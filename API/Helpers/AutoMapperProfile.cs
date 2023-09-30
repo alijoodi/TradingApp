@@ -10,9 +10,8 @@ namespace API.Helpers
 {
     public class AutoMapperProfile : Profile
     {
-        protected AutoMapperProfile()
+        public AutoMapperProfile()
         {
-            CreateMap<TradingUser, TradingUserDto>().ReverseMap();
             CreateMap<TradingUser, TradingUserDto>().ReverseMap();
         }
     }

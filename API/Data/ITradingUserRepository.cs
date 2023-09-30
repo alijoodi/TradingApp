@@ -10,8 +10,8 @@ namespace API.Data
     public interface ITradingUserRepository: IGenericRepository<TradingUser>
     {
         Task<bool> UserExists(string userName);
-        Task<IEnumerable<TradingUserDto>> GetTradingUsersAsync();
-        Task<TradingUserDto?> GetTradingUserByIdAsync(int id);
+        Task<IEnumerable<TradingUser>> GetTradingUsersAsync();
+        Task<TradingUser?> GetTradingUserByIdAsync(int id);
         
     }
 }

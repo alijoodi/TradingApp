@@ -1,4 +1,5 @@
 using API.Entities;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data

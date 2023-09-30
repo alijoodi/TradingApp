@@ -1,3 +1,5 @@
+using AutoMapper;
+
 namespace API.Data
 {
     // Represents a unit of work for performing database operations.

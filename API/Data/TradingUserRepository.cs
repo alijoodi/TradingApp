@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs.TradingUserDtos;
 using API.Entities;
+using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -12,20 +13,18 @@ namespace API.Data
 {
     public class TradingUserRepository : GenericRepository<TradingUser>, ITradingUserRepository
     {
-        private readonly IMapper _mapper;
-        public TradingUserRepository(DataContext context, IMapper mapper) : base(context)
+        public TradingUserRepository(DataContext context) : base(context)
         {
-            this._mapper = mapper;
         }
 
-        public async Task<TradingUserDto?> GetTradingUserByIdAsync(int id)
+        public async Task<TradingUser?> GetTradingUserByIdAsync(int id)
         {
-            return await _context.TradingUsers.Where(x => id == id).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+            return await _context.TradingUsers.Where(x => id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TradingUserDto>> GetTradingUsersAsync()
+        public async Task<IEnumerable<TradingUser>> GetTradingUsersAsync()
         {
-            return await _context.TradingUsers.Where(x => true).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _context.TradingUsers.Where(x => true).ToListAsync();
         }
 
         public async Task<bool> UserExists(string userName)

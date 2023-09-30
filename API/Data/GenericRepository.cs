@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 namespace API.Data
 {
@@ -9,9 +10,10 @@ namespace API.Data
     {
         // The application database context.
         protected readonly DataContext _context;
+        protected readonly IMapper _mapper;
 
         // Constructor that injects the AppDbContext dependency.
-        public GenericRepository(DataContext context) => _context = context;
+        public GenericRepository(DataContext context) { _context = context; }
 
         // Adds a new entity to the database context.
         public void Add(T entity) => _context.Set<T>().Add(entity);

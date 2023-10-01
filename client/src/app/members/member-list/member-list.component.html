@@ -1,1 +1,48 @@
-<p>member-list works!</p>
+<div class="row">
+  <div class="col-2">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">FirstName</th>
+          <th scope="col">Family</th>
+          <th scope="col">UserName</th>
+          <th scope="col">MobileNumber</th>
+          <th scope="col">Email</th>
+          <th scope="col">IsActive</th>
+          <th scope="col">Command</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of tradingUsers">
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ user.name }}</td>
+          <td>{{ user.family }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.mobileNumber }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="isActive"
+              checked="user.isActive"
+            />
+          </td>
+          <td>
+            <button
+              class="btn btn-primary m-2 mg"
+              routerLink="/members/:{{user.username}}"
+            >
+              Edit
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-primary m-2 mg">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -5,20 +5,33 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, take, throwError } from 'rxjs';
 import { NavigationExtras, Route, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { User } from '../_models/user';
+import { AccountService } from '../_services/account.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private toastr: ToastrService) {}
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    let currentUser: any;
+    this.accountService.currentUser$
+      .pipe(take(1))
+      .subscribe((user: User) => (currentUser = user));
     const apiReq = req.clone({
       url: `https://localhost:5001/api/v1/${req.url}`,
+      setHeaders: {
+        Authorization: `Bearer ${currentUser?.token}`,
+      },
     });
 
     return next.handle(apiReq).pipe(

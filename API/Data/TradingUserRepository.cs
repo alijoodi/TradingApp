@@ -13,18 +13,23 @@ namespace API.Data
 {
     public class TradingUserRepository : GenericRepository<TradingUser>, ITradingUserRepository
     {
-        public TradingUserRepository(DataContext context) : base(context)
+        public TradingUserRepository(DataContext context, IMapper mapper) : base(context, mapper)
         {
         }
 
-        public async Task<TradingUser?> GetTradingUserByIdAsync(int id)
+        public async Task<TradingUserDto?> GetTradingUserByIdAsync(int id)
         {
-            return await _context.TradingUsers.Where(x => id == id).FirstOrDefaultAsync();
+            return await _context.TradingUsers.Where(x => id == id).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TradingUser>> GetTradingUsersAsync()
+        public async Task<TradingUserDto?> GetTradingUserByUsernameAsync(string username)
         {
-            return await _context.TradingUsers.Where(x => true).ToListAsync();
+            return await _context.TradingUsers.Where(x => username == username).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<TradingUserDto>> GetTradingUsersAsync()
+        {
+            return await _context.TradingUsers.ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<bool> UserExists(string userName)

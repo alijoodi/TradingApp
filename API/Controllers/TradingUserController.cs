@@ -9,6 +9,7 @@ using API.DTOs.TradingUserDtos;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TradingProject.API.Controller;
 
@@ -28,15 +29,24 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetTradingUsers()
         {
-            return Ok(_mapper.Map<IList<TradingUserDto>>(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync()));
+            return Ok(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync());
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetTradingUserById(int id)
         {
-            return Ok(_mapper.Map<TradingUserDto>(await _unitOfWork.tradingUserRepository.GetTradingUserByIdAsync(id)));
+            return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByIdAsync(id));
+        }
+
+        [HttpGet("{username}")]
+        [Authorize]
+        public async Task<IActionResult> GetTradingUserByUsername(string username)
+        {
+            return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByUsernameAsync(username));
         }
 
         [HttpPost]

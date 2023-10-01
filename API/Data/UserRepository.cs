@@ -8,7 +8,7 @@ namespace API.Data
     {
         // Initializes a new instance of the 'PlatformRepository' class.
         // It takes an AppDbContext as a parameter, which is used to access the underlying database context.
-        public UserRepository(DataContext context) : base(context)
+        public UserRepository(DataContext context, IMapper mapper) : base(context, mapper)
         {
         }
 

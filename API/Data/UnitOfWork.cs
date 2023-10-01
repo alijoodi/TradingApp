@@ -13,11 +13,11 @@ namespace API.Data
 
         // Constructor that injects the AppDbContext dependency and initializes the AppUser repository.
 
-        public UnitOfWork(DataContext context)
+        public UnitOfWork(DataContext context, IMapper mapper)
         {
             _context = context;
-            userRepository = new UserRepository(_context);
-            tradingUserRepository = new TradingUserRepository(_context);
+            userRepository = new UserRepository(_context, mapper);
+            tradingUserRepository = new TradingUserRepository(_context, mapper);
         }
 
         // Saves changes made in the database context and returns the number of affected rows.

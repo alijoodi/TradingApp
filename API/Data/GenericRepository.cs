@@ -13,7 +13,10 @@ namespace API.Data
         protected readonly IMapper _mapper;
 
         // Constructor that injects the AppDbContext dependency.
-        public GenericRepository(DataContext context) { _context = context; }
+        public GenericRepository(DataContext context, IMapper mapper)
+        {
+            _context = context; _mapper = mapper;
+        }
 
         // Adds a new entity to the database context.
         public void Add(T entity) => _context.Set<T>().Add(entity);

@@ -26,6 +26,9 @@ namespace API.Data
         // Adds a new entity to the repository asynchronously.
         Task AddAsync(T entity);
 
+        // Updates an entity of type T synchronously.
+        void Update(T entity);
+
         // Adds a collection of entities to the repository.
         void AddRange(IEnumerable<T> entities);
 

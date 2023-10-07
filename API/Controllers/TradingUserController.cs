@@ -35,18 +35,43 @@ namespace API.Controllers
             return Ok(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetTradingUserById(int id)
         {
             return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByIdAsync(id));
         }
 
-        [HttpGet("{username}")]
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> GetTradingUserByUsername(string username)
         {
             return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByUsernameAsync(username));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> DeactiveTradingUserByUsername(string username)
+        {
+            var result = await _unitOfWork.tradingUserRepository.DeactiveTradingUserByUsernameAsync(username);
+            await _unitOfWork.CompleteAsync();
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> UpdateTradingUser(UpdateTradingUserDto tradingUserDto)
+        {
+            var username = tradingUserDto.Username;
+            var tradingUser = _unitOfWork.tradingUserRepository.Find(x => x.Username == username).FirstOrDefault();
+            if (tradingUser != null)
+            {
+                _mapper.Map(tradingUserDto, tradingUser);
+                _unitOfWork.tradingUserRepository.Update(tradingUser);
+                await _unitOfWork.CompleteAsync();
+                return Ok(_mapper.Map<TradingUserDto>(tradingUser));
+            }
+            return NotFound();
         }
 
         [HttpPost]

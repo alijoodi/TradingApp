@@ -53,5 +53,8 @@ namespace API.Data
 
         // Removes a range of entities from the database context.
         public void RemoveRange(IEnumerable<T> entities) => _context.Set<T>().RemoveRange(entities);
+
+        public void Update(T entity)=>_context.Set<T>().Update(entity);
+
     }
 }

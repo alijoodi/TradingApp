@@ -22,13 +22,29 @@ export class TradingUsersService {
 
   getTradingUserById(id: number): Observable<TradingUserDto> {
     return this.http.get<TradingUserDto>(
-      `${this.controllerName}GetTradingUserById`
+      `${this.controllerName}GetTradingUserById`,
+      { params: { id } }
     );
   }
 
   getTradingUserByUsername(username: string): Observable<TradingUserDto> {
     return this.http.get<TradingUserDto>(
-      `${this.controllerName}GetTradingUserByUsername`
+      `${this.controllerName}GetTradingUserByUsername`,
+      { params: { username } }
+    );
+  }
+
+  deactiveTradingUserByUsername(username: string): Observable<TradingUserDto> {
+    return this.http.post<TradingUserDto>(
+      `${this.controllerName}DeactiveTradingUserByUsername`,
+      { params: { username: username } }
+    );
+  }
+
+  updateTradingUser(tradingUser: TradingUserDto): Observable<TradingUserDto> {
+    return this.http.put<TradingUserDto>(
+      `${this.controllerName}UpdateTradingUser`,
+      tradingUser
     );
   }
 }

@@ -13,6 +13,7 @@ namespace API.Helpers
         public AutoMapperProfile()
         {
             CreateMap<TradingUser, TradingUserDto>().ReverseMap();
+            CreateMap<TradingUser, UpdateTradingUserDto>().ReverseMap();
         }
     }
 }

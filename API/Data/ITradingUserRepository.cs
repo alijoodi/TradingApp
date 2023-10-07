@@ -13,6 +13,7 @@ namespace API.Data
         Task<IEnumerable<TradingUserDto>> GetTradingUsersAsync();
         Task<TradingUserDto?> GetTradingUserByIdAsync(int id);
         Task<TradingUserDto?> GetTradingUserByUsernameAsync(string username);
+        Task<TradingUserDto?> DeactiveTradingUserByUsernameAsync(string username);
         
     }
 }

@@ -1,17 +1,16 @@
 <div class="row" *ngIf="tradingUser">
-  <form #editForm="ngForm" id="editForm" (ngSubmit)="updateTradingUser()">
+  <form>
     <div class="col-4">
       <div class="card">
         <div class="card-body">
           <div>
             <strong>Username :</strong>
-            <p>{{tradingUser.username}}</p>
-            <!-- <input
+            <input
               class="form-control"
               type="text"
               [(ngModel)]="tradingUser.username"
               name="username"
-            /> -->
+            />
           </div>
 
           <div>
@@ -57,21 +56,20 @@
           <div>
             <strong>Is Active :</strong>
             <input
-              [(ngModel)]="tradingUser.isActive"
-              name="isActive"
+              class="form-check-input"
               type="checkbox"
+              id="isActive"
+              checked="user.isActive"
             />
           </div>
           <div class="card-footer">
             <div class="btn-group d-flex">
-              <button
-                class="btn btn-success"
-                style="margin: 10px"
-                type="submit"
-                form="editForm"
-                [disabled]="!editForm.dirty"
-              >
-                Save
+              <button class="btn btn-success" style="margin: 10px">Edit</button>
+              <button class="btn btn-warning" style="margin: 10px">
+                Deactive
+              </button>
+              <button class="btn btn-danger" style="margin: 10px">
+                Delete
               </button>
             </div>
           </div>

@@ -17,6 +17,20 @@ namespace API.Data
         {
         }
 
+        public async Task<TradingUserDto?> DeactiveTradingUserByUsernameAsync(string username)
+        {
+            var tradingUser = await _context.TradingUsers.Where(x => username == username).FirstOrDefaultAsync();
+            if (tradingUser != null)
+            {
+                tradingUser.IsActive = false;
+                return _mapper.Map<TradingUserDto>(tradingUser);
+            }
+            else
+            {
+                throw new Exception("User not exist");
+            }
+        }
+
         public async Task<TradingUserDto?> GetTradingUserByIdAsync(int id)
         {
             return await _context.TradingUsers.Where(x => id == id).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();

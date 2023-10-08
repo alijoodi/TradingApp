@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TradingUserDto } from '../_models/TradingUserDto';
 import { Observable } from 'rxjs';
+import { RegisterTradingUserDto } from '../_models/RegisterTradingUserDto';
 
 const user = JSON.parse(localStorage.getItem('user')!);
 const token = user?.token ?? '';
@@ -44,6 +45,13 @@ export class TradingUsersService {
   updateTradingUser(tradingUser: TradingUserDto): Observable<TradingUserDto> {
     return this.http.put<TradingUserDto>(
       `${this.controllerName}UpdateTradingUser`,
+      tradingUser
+    );
+  }
+
+  registerTradingUser(tradingUser: RegisterTradingUserDto): Observable<TradingUserDto> {
+    return this.http.post<TradingUserDto>(
+      `${this.controllerName}Register`,
       tradingUser
     );
   }

@@ -9,7 +9,7 @@ import { TradingUsersService } from 'src/app/_services/trading-users.service';
 })
 export class MemberListComponent implements OnInit {
   tradingUsers: TradingUserDto[] = [];
-  
+
   constructor(private tradingUserService: TradingUsersService) {}
 
   ngOnInit(): void {
@@ -21,4 +21,5 @@ export class MemberListComponent implements OnInit {
       this.tradingUsers = response;
     });
   }
+
 }

@@ -1,0 +1,91 @@
+<div class="row">
+  <form
+    #editForm="ngForm"
+    id="editForm"
+    (ngSubmit)="registerTradingUserMethod()"
+  >
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <strong>Username :</strong>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="registerTradingUser.username"
+              name="username"
+              id="username"
+            />
+          </div>
+          <div>
+            <strong>Password :</strong>
+            <input
+              class="form-control"
+              type="password"
+              [(ngModel)]="registerTradingUser.password"
+              name="password"
+              id="password"
+            />
+          </div>
+          <div>
+            <strong>Name :</strong>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="registerTradingUser.name"
+              name="name"
+              id="name"
+            />
+          </div>
+
+          <div>
+            <strong>Family :</strong>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="registerTradingUser.family"
+              name="family"
+              id="family"
+            />
+          </div>
+
+          <div>
+            <strong>Email :</strong>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="registerTradingUser.email"
+              name="email"
+              id="email"
+            />
+          </div>
+
+          <div>
+            <strong>Mobile Number :</strong>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="registerTradingUser.mobileNumber"
+              name="mobileNumber"
+              id="mobileNumber"
+            />
+          </div>
+
+          <div class="card-footer">
+            <div class="btn-group d-flex">
+              <button
+                class="btn btn-success"
+                style="margin: 10px"
+                type="submit"
+                form="editForm"
+                [disabled]="!editForm.dirty"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -94,11 +94,7 @@ namespace API.Controllers
 
             await _unitOfWork.tradingUserRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync();
-            return Ok(new ReturnedLoginTradingUserDto
-            {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user)
-            });
+            return Ok(_mapper.Map<TradingUserDto>(user));
             // Assuming you want to return a successful response with the created user.
         }
 

@@ -9,12 +9,21 @@ namespace API.Data
 {
     public class Seed
     {
-        public static async Task Initialize(UserManager<AppUser> userManager)
+        public static async Task Initialize(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             // Seed admin user logic goes here
 
             // Check if admin user already exists
             var adminUser = await userManager.FindByEmailAsync("admin@example.com");
+            var adminRole = await roleManager.FindByNameAsync("Admin");
+            if (adminRole == null)
+            {
+                var newAdminRole = new AppRole
+                {
+                    Name = "Admin"
+                };
+                await roleManager.CreateAsync(newAdminRole);
+            }
             if (adminUser == null)
             {
                 // Create a new admin user

@@ -24,8 +24,9 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
 {
     var context = serviceProvider.GetRequiredService<DataContext>();
     var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await Seed.Initialize(userManager);
+    await Seed.Initialize(userManager,roleManager);
 
 }
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

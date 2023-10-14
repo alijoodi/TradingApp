@@ -12,6 +12,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { RegisterMemberComponent } from './members/register-member/register-member.component';
+import { AdminGuard } from './_guards/admin.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,7 +22,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'members', component: MemberListComponent },
-      { path: 'registermember', component: RegisterMemberComponent },
+      {
+        path: 'registermember',
+        component: RegisterMemberComponent,
+        canActivate: [AdminGuard],
+      },
       { path: 'members/:username', component: MemberDetailComponent },
       {
         path: 'member/edit/:username',

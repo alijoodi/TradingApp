@@ -29,27 +29,27 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetTradingUsers()
         {
             return Ok(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync());
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetTradingUserById(int id)
         {
             return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByIdAsync(id));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetTradingUserByUsername(string username)
         {
             return Ok(await _unitOfWork.tradingUserRepository.GetTradingUserByUsernameAsync(username));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeactiveTradingUserByUsername(string username)
         {
@@ -58,7 +58,7 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateTradingUser(UpdateTradingUserDto tradingUserDto)
         {

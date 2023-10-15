@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DeactiveTradingUserByUsernameRequest } from 'src/app/_models/DeactiveTradingUserByUsernameRequest';
 import { TradingUserDto } from 'src/app/_models/TradingUserDto';
 import { TradingUsersService } from 'src/app/_services/trading-users.service';
 
@@ -10,7 +11,8 @@ import { TradingUsersService } from 'src/app/_services/trading-users.service';
 export class MemberListComponent implements OnInit {
   tradingUsers: TradingUserDto[] = [];
 
-  constructor(private tradingUserService: TradingUsersService) {}
+  constructor(private tradingUserService: TradingUsersService) {
+  }
 
   ngOnInit(): void {
     this.loadTradingUsers();
@@ -22,4 +24,15 @@ export class MemberListComponent implements OnInit {
     });
   }
 
+  deactiveTradingUser(username: string) {
+    this.tradingUserService
+      .deactiveTradingUserByUsername(username)
+      .subscribe((user) => {
+        this.loadTradingUsers();
+      });
+  }
+
+  deleteTradingUser(username: string) {
+    this.tradingUserService.deleteTradingUserByUsername(username);
+  }
 }

@@ -50,12 +50,24 @@ namespace API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> DeactiveTradingUserByUsername(string username)
+        [HttpPut]
+        public async Task<IActionResult> DeactiveTradingUserByUsername(DeactiveTradingUserByUsernameRequest user)
         {
-            var result = await _unitOfWork.tradingUserRepository.DeactiveTradingUserByUsernameAsync(username);
+            var result = await _unitOfWork.tradingUserRepository.DeactiveTradingUserByUsernameAsync(user.Username);
             await _unitOfWork.CompleteAsync();
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTradingUserByUsername(string username)
+        {
+            var tradingUser = _unitOfWork.tradingUserRepository.Find(x => x.Username == username).FirstOrDefault();
+            if (tradingUser == null)
+                return BadRequest("User not found");
+            _unitOfWork.tradingUserRepository.Remove(tradingUser);
+            await _unitOfWork.CompleteAsync();
+            return Ok("Delete user successfuly");
         }
 
         [Authorize(Roles = "Admin")]

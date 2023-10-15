@@ -23,23 +23,20 @@
           <td>{{ user.mobileNumber }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="isActive"
-              checked="user.isActive"
-            />
+            <input [(ngModel)]="user.isActive" name="isActive" type="checkbox" />
           </td>
           <td>
-            <button
-              class="btn btn-primary m-2 mg"
-              routerLink="/members/{{user.username}}"
-            >
+            <button class="btn btn-primary m-2 mg" routerLink="/members/{{user.username}}">
               Show
             </button>
           </td>
           <td>
-            <button class="btn btn-primary m-2 mg">Delete</button>
+            <button class="btn btn-danger m-2 mg" type="submit"
+              (click)="deactiveTradingUser(user.username)">{{user.isActive?'Deactive':'Active'}}</button>
+          </td>
+          <td>
+            <button class="btn btn-danger m-2 mg" type="submit"
+              (click)="deleteTradingUser(user.username)">Delete</button>
           </td>
         </tr>
       </tbody>

@@ -7,6 +7,7 @@ using API.Entities;
 using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -19,10 +20,10 @@ namespace API.Data
 
         public async Task<TradingUserDto?> DeactiveTradingUserByUsernameAsync(string username)
         {
-            var tradingUser = await _context.TradingUsers.Where(x => username == username).FirstOrDefaultAsync();
+            var tradingUser = await _context.TradingUsers.Where(x => x.Username == username).FirstOrDefaultAsync();
             if (tradingUser != null)
             {
-                tradingUser.IsActive = false;
+                tradingUser.IsActive = !tradingUser.IsActive;
                 return _mapper.Map<TradingUserDto>(tradingUser);
             }
             else
@@ -33,12 +34,12 @@ namespace API.Data
 
         public async Task<TradingUserDto?> GetTradingUserByIdAsync(int id)
         {
-            return await _context.TradingUsers.Where(x => id == id).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+            return await _context.TradingUsers.Where(x => x.Id == id).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         public async Task<TradingUserDto?> GetTradingUserByUsernameAsync(string username)
         {
-            return await _context.TradingUsers.Where(x => username == username).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
+            return await _context.TradingUsers.Where(x => x.Username == username).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<TradingUserDto>> GetTradingUsersAsync()

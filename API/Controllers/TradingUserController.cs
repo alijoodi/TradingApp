@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs.TradingUserDtos;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -30,9 +31,13 @@ namespace API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetTradingUsers()
+        public async Task<IActionResult> GetTradingUsers([FromQuery] UserParams userParams)
         {
-            return Ok(await _unitOfWork.tradingUserRepository.GetTradingUsersAsync());
+            var users = await _unitOfWork.tradingUserRepository.GetTradingUsersAsync(userParams);
+
+            Response.AddPagenationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
+            return Ok(users);
         }
 
         [HttpGet]

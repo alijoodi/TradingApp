@@ -42,9 +42,13 @@ namespace API.Data
             return await _context.TradingUsers.Where(x => x.Username == username).ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<TradingUserDto>> GetTradingUsersAsync()
+        public async Task<PagedList<TradingUserDto>> GetTradingUsersAsync(UserParams userParams)
         {
-            return await _context.TradingUsers.ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider).ToListAsync();
+            var query = _context.TradingUsers
+            .ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider)
+            .AsNoTracking();
+
+            return await PagedList<TradingUserDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<bool> UserExists(string userName)

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TradingUserDto } from '../_models/TradingUserDto';
 import { Observable } from 'rxjs';
@@ -16,11 +16,10 @@ export class TradingUsersService {
 
   constructor(private http: HttpClient) { }
 
-  getTradingUsers(): Observable<TradingUserDto[]> {
-    return this.http.get<TradingUserDto[]>(
-      `${this.controllerName}GetTradingUsers`
-    );
+  getTradingUsers(params: HttpParams) {
+    return this.http.get<TradingUserDto[]>(`${this.controllerName}GetTradingUsers`, { observe: 'response', params });
   }
+
 
   getTradingUserById(id: number): Observable<TradingUserDto> {
     return this.http.get<TradingUserDto>(

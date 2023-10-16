@@ -26,20 +26,28 @@
             <input [(ngModel)]="user.isActive" name="isActive" type="checkbox" />
           </td>
           <td>
-            <button class="btn btn-primary m-2 mg" routerLink="/members/{{user.username}}">
+            <button class="btn btn-primary m-1 mg" routerLink="/members/{{user.username}}">
               Show
             </button>
           </td>
           <td>
-            <button class="btn btn-danger m-2 mg" type="submit"
+            <button class="btn {{user.isActive?'btn-danger':'btn-success'}} m-1 mg" type="submit"
               (click)="deactiveTradingUser(user.username)">{{user.isActive?'Deactive':'Active'}}</button>
           </td>
           <td>
-            <button class="btn btn-danger m-2 mg" type="submit"
+            <button class="btn btn-danger m-1 mg" type="submit"
               (click)="deleteTradingUser(user.username)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="d-flex justify-content-center" *ngIf="pagenation">
+    <pagination  
+      [totalItems]="pagenation.TotalItems"
+      [itemsPerPage]="pagenation.ItemsPerPage" 
+      [(ngModel)]="pagenation.CurrentPage"
+      (pageChanged)="pageChanged($event)">
+    </pagination>
   </div>
 </div>

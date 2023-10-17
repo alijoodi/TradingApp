@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { map } from 'rxjs';
 import { DeactiveTradingUserByUsernameRequest } from 'src/app/_models/DeactiveTradingUserByUsernameRequest';
 import { TradingUserDto } from 'src/app/_models/TradingUserDto';
@@ -12,12 +13,14 @@ import { TradingUsersService } from 'src/app/_services/trading-users.service';
   styleUrls: ['./member-list.component.css'],
 })
 export class MemberListComponent implements OnInit {
+  @ViewChild('editForm') editForm: NgForm;
+
   showDirectionLinks = true;
   pagenatedResult: PagenatedResult<TradingUserDto[]> = new PagenatedResult<TradingUserDto[]>();
   pagenation: Pagenation;
   pageNumber = 1;
   pageSize = 10;
-
+  filterTradingUser: TradingUserDto = {} as TradingUserDto;
   tradingUsers: TradingUserDto[] = [];
 
   constructor(private tradingUserService: TradingUsersService) {
@@ -33,6 +36,25 @@ export class MemberListComponent implements OnInit {
     if (page && itemsPerPage) {
       params = params.append("pageNumber", page.toString());
       params = params.append("pageSize", itemsPerPage.toString());
+    }
+
+    if (this.filterTradingUser) {
+
+      if (this.filterTradingUser.name)
+        params = params.append('name', this.filterTradingUser.name);
+
+      if (this.filterTradingUser.family)
+        params = params.append('family', this.filterTradingUser.family);
+
+      if (this.filterTradingUser.mobileNumber)
+        params = params.append('mobileNumber', this.filterTradingUser.mobileNumber);
+
+      if (this.filterTradingUser.email)
+        params = params.append('email', this.filterTradingUser.email);
+
+      if (this.filterTradingUser.username)
+        params = params.append('username', this.filterTradingUser.username);
+
     }
 
     this.tradingUserService.getTradingUsers(params).pipe(map((response) => {

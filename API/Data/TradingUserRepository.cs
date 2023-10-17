@@ -45,6 +45,11 @@ namespace API.Data
         public async Task<PagedList<TradingUserDto>> GetTradingUsersAsync(UserParams userParams)
         {
             var query = _context.TradingUsers
+            .Where(x => string.IsNullOrWhiteSpace(userParams.Name) || x.Name.Contains(userParams.Name))
+            .Where(x => string.IsNullOrWhiteSpace(userParams.Family) || x.Name.Contains(userParams.Family))
+            .Where(x => string.IsNullOrWhiteSpace(userParams.Username) || x.Name.Contains(userParams.Username))
+            .Where(x => string.IsNullOrWhiteSpace(userParams.MobileNumber) || x.Name.Contains(userParams.MobileNumber))
+            .Where(x => string.IsNullOrWhiteSpace(userParams.Email) || x.Name.Contains(userParams.Email))
             .ProjectTo<TradingUserDto>(_mapper.ConfigurationProvider)
             .AsNoTracking();
 

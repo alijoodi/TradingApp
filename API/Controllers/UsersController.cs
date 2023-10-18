@@ -18,7 +18,7 @@ namespace API.Controllers
 
         [HttpGet]
         // [AllowAnonymous]
-        // [Authorize]
+        [Authorize]
         public ActionResult<IEnumerable<AppUser>> GetUsers()
         {
             var users = _unitOfWork.userRepository.Find(x => x.Id > 0).ToList();

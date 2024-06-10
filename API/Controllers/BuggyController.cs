@@ -18,7 +18,7 @@ namespace API.Controllers
             this._unitOfWork = unitOfWork;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public ActionResult<string> GetSecret()
         {

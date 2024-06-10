@@ -24,8 +24,7 @@ const routes: Routes = [
       { path: 'members', component: MemberListComponent },
       {
         path: 'registermember',
-        component: RegisterMemberComponent,
-        canActivate: [AdminGuard],
+        component: RegisterMemberComponent
       },
       { path: 'members/:username', component: MemberDetailComponent },
       {

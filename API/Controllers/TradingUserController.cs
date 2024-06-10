@@ -92,6 +92,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterTradingUserDto registerDto)
         {
             if (await _unitOfWork.tradingUserRepository.UserExists(registerDto.Username)) return BadRequest("UserName is taken");
@@ -116,7 +117,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginTradingUserDto loginDto)
+        public async Task<IActionResult> Login([FromQuery] LoginTradingUserDto loginDto)
         {
             var user = await _unitOfWork.tradingUserRepository.SingleOrDefaultAsync(user => user.Username == loginDto.Username);
 

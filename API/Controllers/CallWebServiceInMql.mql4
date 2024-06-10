@@ -1,0 +1,29 @@
+// Define the URL of the REST API endpoint
+string url = "https://api.example.com/data";
+
+// Perform the HTTP request
+int request = WebRequest("GET", url, NULL, NULL, 5000);
+
+// Check if the request was successful
+if (request != INVALID_HANDLE)
+{
+    // Get the response from the server
+    string response;
+    int bytesRead = 0;
+    while (WebRequestReceive(request, response, 1024, bytesRead))
+    {
+        // Process the received data here
+        // You can parse the JSON response or do whatever is needed
+        
+        // Note that bytesRead will contain the number of bytes received in each iteration,
+        // so you can use it to track the total bytes received if needed.
+    }
+
+    // Close the request
+    WebRequestClose(request);
+}
+else
+{
+    // Handle the case where the request failed
+    Print("Failed to make the request");
+}

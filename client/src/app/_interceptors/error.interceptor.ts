@@ -28,7 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       .pipe(take(1))
       .subscribe((user: User) => (currentUser = user));
     const apiReq = req.clone({
-      url: `https://localhost:5001/api/v1/${req.url}`,
+      url: `http://localhost/api/v1/${req.url}`,
       setHeaders: {
         Authorization: `Bearer ${currentUser?.token}`,
       },

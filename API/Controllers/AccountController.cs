@@ -26,32 +26,32 @@ namespace API.Controllers
             this.signInManager = signInManager;
         }
 
-        [HttpPost]
-        // [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
-        {
-            var userExists = await userManager.Users.AnyAsync(x => x.UserName == registerDto.UserName);
-            if (!userExists) return BadRequest("UserName is taken");
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Register(RegisterDto registerDto)
+        //{
+        //    var userExists = await userManager.Users.AnyAsync(x => x.UserName == registerDto.UserName);
+        //    if (!userExists) return BadRequest("UserName is taken");
 
-            var user = new AppUser
-            {
-                UserName = registerDto.UserName.ToLowerInvariant(),
-            };
+        //    var user = new AppUser
+        //    {
+        //        UserName = registerDto.UserName.ToLowerInvariant(),
+        //    };
 
-            var result = await userManager.CreateAsync(user, registerDto.Password);
+        //    var result = await userManager.CreateAsync(user, registerDto.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+        //    if (!result.Succeeded) return BadRequest(result.Errors);
 
-            var roleResult = await userManager.AddToRoleAsync(user, "Admin");
+        //    var roleResult = await userManager.AddToRoleAsync(user, "Admin");
 
-            if (!roleResult.Succeeded) return BadRequest(result.Errors);
+        //    if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
-            return Ok(new UserDto
-            {
-                Username = user.UserName,
-                Token = await _tokenService.CreateToken(user)
-            });
-        }
+        //    return Ok(new UserDto
+        //    {
+        //        Username = user.UserName,
+        //        Token = await _tokenService.CreateToken(user)
+        //    });
+        //}
 
         [HttpPost]
         // [AllowAnonymous]
